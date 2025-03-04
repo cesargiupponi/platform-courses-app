@@ -12,7 +12,6 @@ struct BackCardView: View {
         VStack {
             Spacer()
         }
-        .frame(width: 340, height: 220)
     }
 }
 
