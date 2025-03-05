@@ -1,0 +1,73 @@
+//
+//  HomeView.swift
+//  PlatformCoursesApp
+//
+//  Created by Cesar Giupponi on 05/03/25.
+//
+
+import SwiftUI
+
+struct HomeView: View {
+
+    @State var showProfile = false
+
+    var body: some View {
+
+        ZStack {
+
+            Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
+                .ignoresSafeArea(edges: .all)
+
+            VStack {
+                HStack {
+                    
+                    Text("Watching")
+                        .font(.system(size: 28, weight: .bold))
+                    
+                    Spacer()
+                    
+                    Button {
+                        showProfile.toggle()
+                    } label: {
+                        Image("Avatar")
+                            .renderingMode(.original)
+                            .resizable()
+                            .frame(width: 36, height: 36)
+                            .clipShape(Circle())
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.top, 30)
+                
+                Spacer()
+            }
+            .padding(.top, 44)
+            .background(Color.white)
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: 30,
+                    style: .continuous
+                )
+            )
+            .shadow(color: Color.black.opacity(0.2),
+                    radius: 20,
+                    x: 0,
+                    y: 20
+            )
+            .offset(y: showProfile ? -450 : 0)
+            .rotation3DEffect(
+                Angle(degrees: showProfile ? -10 : 0),
+                axis: (x: 10.0, y: 0, z: 0))
+            .scaleEffect(showProfile ? 0.9 : 1)
+            .ignoresSafeArea(edges: .all)
+
+            MenuView()
+                .offset(y: showProfile ? 0 : 600)
+                .animation(Animation.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0), value: showProfile)
+        }
+    }
+}
+
+#Preview {
+    HomeView()
+}
