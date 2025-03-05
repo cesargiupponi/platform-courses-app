@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
 
     @State var showProfile = false
+    @State var viewState: CGSize = .zero
 
     var body: some View {
 
@@ -56,14 +57,33 @@ struct HomeView: View {
             )
             .offset(y: showProfile ? -450 : 0)
             .rotation3DEffect(
-                Angle(degrees: showProfile ? -10 : 0),
+                Angle(degrees: showProfile ? Double(viewState.height / 10) - 10 : 0),
                 axis: (x: 10.0, y: 0, z: 0))
             .scaleEffect(showProfile ? 0.9 : 1)
             .ignoresSafeArea(edges: .all)
 
             MenuView()
-                .offset(y: showProfile ? 0 : 600)
-                .animation(Animation.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0), value: showProfile)
+                .background(Color.black.opacity(0.001))
+                .offset(y: showProfile ? 0 : 1000)
+                .offset(y: viewState.height)
+                .animation(Animation.spring(response: 0.5,
+                                            dampingFraction: 0.6,
+                                            blendDuration: 0),
+                           value: showProfile)
+                .onTapGesture {
+                    showProfile.toggle()
+                }
+                .gesture(
+                    DragGesture().onChanged { value in
+                        viewState = value.translation
+                    }
+                    .onEnded { value in
+                        if viewState.height > 50 {
+                            showProfile = false
+                        }
+                        viewState = .zero
+                    }
+                )
         }
     }
 }
