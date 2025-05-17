@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let screen = UIScreen.main.bounds
+
 struct HomeView: View {
 
     @State var showProfile = false
@@ -19,29 +21,7 @@ struct HomeView: View {
             Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
                 .ignoresSafeArea(edges: .all)
 
-            VStack {
-                HStack {
-                    
-                    Text("Watching")
-                        .font(.system(size: 28, weight: .bold))
-                    
-                    Spacer()
-                    
-                    Button {
-                        showProfile.toggle()
-                    } label: {
-                        Image("Avatar")
-                            .renderingMode(.original)
-                            .resizable()
-                            .frame(width: 36, height: 36)
-                            .clipShape(Circle())
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.top, 30)
-                
-                Spacer()
-            }
+            HomeContentView(showProfile: $showProfile)
             .padding(.top, 44)
             .background(Color.white)
             .clipShape(
@@ -64,7 +44,7 @@ struct HomeView: View {
 
             MenuView()
                 .background(Color.black.opacity(0.001))
-                .offset(y: showProfile ? 0 : 1000)
+                .offset(y: showProfile ? 0 : screen.height)
                 .offset(y: viewState.height)
                 .animation(Animation.spring(response: 0.5,
                                             dampingFraction: 0.6,
