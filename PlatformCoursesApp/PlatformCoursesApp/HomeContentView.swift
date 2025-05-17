@@ -28,6 +28,7 @@ let sectionData = [
 struct HomeContentView: View {
 
     @Binding var showProfile: Bool
+    @State var showUpdate = false
 
     var body: some View {
         VStack {
@@ -39,6 +40,18 @@ struct HomeContentView: View {
                 Spacer()
 
                 AvatarView(showProfile: $showProfile)
+
+                Button(action: {
+                    self.showUpdate.toggle()
+                }) {
+                    Image(systemName: "bell")
+                        .renderingMode(.original)
+                        .font(.system(size: 16, weight: .medium))
+                        .frame(width: 36, height: 36)
+                }
+                .sheet(isPresented: $showUpdate) {
+                    ContentView()
+                }
             }
             .padding(.horizontal)
             .padding(.leading, 14)
@@ -47,7 +60,14 @@ struct HomeContentView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 30) {
                     ForEach(sectionData) { item in
-                        SectionView(section: item)
+                        GeometryReader { geometry in
+                            SectionView(section: item)
+                                .rotation3DEffect(
+                                    Angle(degrees: Double(geometry.frame(in: .global).minX - 30) / -20),
+                                    axis: (x: 0, y: 10, z: 0)
+                                )
+                        }
+                        .frame(width: 275, height: 275)
                     }
                 }
                 .padding(30)
