@@ -39,39 +39,73 @@ let updateData = [
 ]
 
 struct UpdateListView: View {
+
+    @ObservedObject var store = UpdateStore()
+
     var body: some View {
         NavigationView {
-            List(updateData) { updateItem in
-                NavigationLink(destination: UpdateDetailView(update: updateItem)) {
-                    HStack {
-                        Image(updateItem.image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 80, height: 80)
-                            .background(Color.black)
-                            .cornerRadius(20)
-                            .padding(.trailing, 4)
-
-                        VStack(alignment: .leading, spacing: 8.0) {
-                            Text(updateItem.title)
-                                .font(.system(size: 20, weight: .bold))
+            List {
+                ForEach(store.updates) { updateItem in
+                    NavigationLink(destination: UpdateDetailView(update: updateItem)) {
+                        HStack {
+                            Image(updateItem.image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 80, height: 80)
+                                .background(Color.black)
+                                .cornerRadius(20)
+                                .padding(.trailing, 4)
                             
-                            Text(updateItem.text)
-                                .lineLimit(2)
-                                .font(.subheadline)
-                                .foregroundStyle(Color.gray)
-                            
-                            Text(updateItem.date)
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundStyle(.secondary)
+                            VStack(alignment: .leading, spacing: 8.0) {
+                                Text(updateItem.title)
+                                    .font(.system(size: 20, weight: .bold))
+                                
+                                Text(updateItem.text)
+                                    .lineLimit(2)
+                                    .font(.subheadline)
+                                    .foregroundStyle(Color.gray)
+                                
+                                Text(updateItem.date)
+                                    .font(.caption)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.secondary)
+                            }
                         }
+                        .padding(.vertical, 8)
                     }
-                    .padding(.vertical, 8)
+                }
+                .onDelete { index in
+                    if let index = index.first {
+                        self.store.updates.remove(at: index)
+                    }
+                }
+                .onMove { (source: IndexSet, destination: Int) in
+                    self.store.updates.move(fromOffsets: source,
+                                            toOffset: destination)
                 }
             }
             .navigationBarTitle(Text("Updates"))
+            .toolbar(content: {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        addUpdate()
+                    } label: {
+                        Text("Add Update")
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    EditButton()
+                }
+            })
         }
+    }
+
+    func addUpdate() {
+        store.updates.append(Update(image: "Card1",
+                                    title: "New item",
+                                    text: "Text",
+                                    date: "JAN 1")
+        )
     }
 }
 
