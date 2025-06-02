@@ -10,9 +10,22 @@
 		A58ECE362D5AC54E00CDD945 /* PlatformCoursesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlatformCoursesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A54ED1C62DEE5FD1008814AA /* Exceptions for "PlatformCoursesApp" folder in "PlatformCoursesApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A58ECE352D5AC54E00CDD945 /* PlatformCoursesApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A58ECE382D5AC54E00CDD945 /* PlatformCoursesApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A54ED1C62DEE5FD1008814AA /* Exceptions for "PlatformCoursesApp" folder in "PlatformCoursesApp" target */,
+			);
 			path = PlatformCoursesApp;
 			sourceTree = "<group>";
 		};
@@ -254,6 +267,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"PlatformCoursesApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PlatformCoursesApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Platform Courses";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -283,6 +297,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"PlatformCoursesApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PlatformCoursesApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Platform Courses";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

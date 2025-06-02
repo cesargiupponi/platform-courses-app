@@ -35,7 +35,7 @@ struct HomeContentView: View {
             HStack {
 
                 Text("Watching")
-                    .font(.system(size: 28, weight: .bold))
+                    .modifier(CustomFontModifier())
 
                 Spacer()
 
@@ -62,26 +62,11 @@ struct HomeContentView: View {
             .padding(.leading, 14)
             .padding(.top, 30)
 
-            HStack(spacing: 12) {
-                RingView(show: .constant(true),
-                         colorOne: #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1),
-                         colorTwo: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1),
-                         width: 44,
-                         height: 44,
-                         percent: 68)
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("6 minutes left")
-                        .font(.subheadline)
-                        .fontWeight(.bold)
-                    Text("Watched 10 min today")
-                }
+            ScrollView(.horizontal, showsIndicators: false) {
+                WatchRingsView()
+                    .padding(.horizontal, 30)
+                    .padding(.bottom, 30)
             }
-            .padding(8)
-            .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 20,
-                                        style: .continuous))
-            .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
-            .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 30) {
