@@ -19,6 +19,8 @@ struct Section: Identifiable {
 struct SectionView: View {
 
     var section: Section
+    var width: CGFloat = 275
+    var height: CGFloat = 275
 
     var body: some View {
         VStack {
@@ -41,7 +43,7 @@ struct SectionView: View {
         }
         .padding(.top, 20)
         .padding(.horizontal, 20)
-        .frame(width: 275, height: 275)
+        .frame(width: width, height: height)
         .background(section.color)
         .cornerRadius(30)
         .shadow(color: section.color.opacity(0.3), radius: 20, x: 0, y: 20)

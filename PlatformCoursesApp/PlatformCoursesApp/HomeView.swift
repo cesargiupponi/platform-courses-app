@@ -13,6 +13,7 @@ struct HomeView: View {
 
     @State var showProfile = false
     @State var viewState: CGSize = .zero
+    @State var showContent: Bool = false
 
     var body: some View {
 
@@ -21,9 +22,20 @@ struct HomeView: View {
             Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
                 .ignoresSafeArea(edges: .all)
 
-            HomeContentView(showProfile: $showProfile)
+            HomeContentView(showProfile: $showProfile,
+                            showContent: $showContent)
             .padding(.top, 44)
-            .background(Color.white)
+            .background(
+                VStack {
+                    LinearGradient(colors: [Color("background2"),
+                                            Color.white],
+                                   startPoint: .top,
+                                   endPoint: .bottom)
+                    .frame(height: 200)
+                    Spacer()
+                }
+                .background(Color.white)
+            )
             .clipShape(
                 RoundedRectangle(
                     cornerRadius: 30,
@@ -64,6 +76,32 @@ struct HomeView: View {
                         viewState = .zero
                     }
                 )
+
+            if showContent {
+                Color.white.ignoresSafeArea(.all)
+                ContentView()
+
+                VStack {
+                    HStack {
+                        Spacer()
+
+                        Image(systemName: "xmark")
+                            .frame(width: 36, height: 36)
+                            .foregroundStyle(.white)
+                            .background(Color.black)
+                            .clipShape(Circle())
+                    }
+                    Spacer()
+                }
+                .offset(x: -16, y: 16)
+                .transition(.move(edge: .top))
+                .animation(.spring(response: 0.6,
+                                   dampingFraction: 0.6,
+                                   blendDuration: 0))
+                .onTapGesture {
+                    self.showContent = false
+                }
+            }
         }
     }
 }
