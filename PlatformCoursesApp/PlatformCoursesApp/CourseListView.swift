@@ -10,28 +10,40 @@ import SwiftUI
 struct CourseListView: View {
 
     @State var courses = courseData
+    @State var active = false
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 30) {
-                Text("Courses")
-                    .font(.largeTitle).bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 30)
-                    .padding(.top, 30)
+        ZStack {
+            Color.black.opacity(active ? 0.5 : 0)
+                .animation(.linear)
+                .ignoresSafeArea(edges: .all)
 
-                ForEach(courses.indices, id: \.self) { index in
-                    GeometryReader { geometry in
-                        CourseView(show: $courses[index].show,
-                                   course: courses[index])
+            ScrollView {
+                VStack(spacing: 30) {
+                    Text("Courses")
+                        .font(.largeTitle).bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 30)
+                        .padding(.top, 30)
+                        .blur(radius: active ? 20 : 0)
+                    
+                    ForEach(courses.indices, id: \.self) { index in
+                        GeometryReader { geometry in
+                            CourseView(show: $courses[index].show,
+                                       active: $active,
+                                       course: courses[index])
                             .offset(y: courses[index].show ? -geometry.frame(in: .global).minY : 0)
+                        }
+                        .frame(height: 280)
+                        .frame(maxWidth: courses[index].show ? .infinity : screen.width - 60)
+                        .zIndex(courses[index].show ? 1 : 0)
                     }
-                    .frame(height: 280)
-                    .frame(maxWidth: courses[index].show ? .infinity : screen.width - 60)
                 }
+                .frame(width: screen.width)
+                .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
             }
-            .frame(width: screen.width)
-            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+            .statusBarHidden(active ? true : false)
+            .animation(.linear)
         }
     }
 }
@@ -39,6 +51,7 @@ struct CourseListView: View {
 struct CourseView: View {
 
     @Binding var show: Bool
+    @Binding var active: Bool
     var course: Course
 
     var body: some View {
@@ -99,6 +112,7 @@ struct CourseView: View {
             .shadow(color: Color(course.color).opacity(0.3), radius: 20, x: 0, y: 20)
             .onTapGesture {
                 self.show.toggle()
+                self.active.toggle()
             }
         }
         .frame(height: show ? screen.height : 280)
